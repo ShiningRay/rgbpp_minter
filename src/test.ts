@@ -1,3 +1,4 @@
+require('dotenv').config()
 import { AddressPrefix, addressToScript, getTransactionSize, privateKeyToAddress } from '@nervosnetwork/ckb-sdk-utils';
 import { getSecp256k1CellDep, Collector, NoLiveCellError, calculateUdtCellCapacity, MAX_FEE, MIN_CAPACITY, append0x, u128ToLe, getXudtDep, getUniqueTypeDep, SECP256K1_WITNESS_LOCK_SIZE, calculateTransactionFee, NoXudtLiveCellError } from '@rgbpp-sdk/ckb';
 import { XUDT_TOKEN_INFO } from './0-token-info';
@@ -5,6 +6,10 @@ import { XUDT_TOKEN_INFO } from './0-token-info';
 // CKB SECP256K1 private key
 const CKB_TEST_PRIVATE_KEY = process.env.PRIVATE_KEY;
 const P2 = process.env.HOT_PRIVATE_KEY;
+if (!P2) {
+  console.log("Please config P2 in env")
+  process.exit()
+}
 const isMainnet = false;
 const toAddress = privateKeyToAddress(P2, {
   prefix: isMainnet ? AddressPrefix.Mainnet : AddressPrefix.Testnet,
